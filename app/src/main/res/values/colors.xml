@@ -5,4 +5,6 @@
     <color name="colorPrimaryLight">#55545D</color>
     <color name="colorSecondaryLight">#B0B7BE</color>
     <color name="colorAccent">#4657EE</color>
+
+    <color name="colorTransparent">#00000000</color>
 </resources>
