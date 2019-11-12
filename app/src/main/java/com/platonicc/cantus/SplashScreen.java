@@ -24,12 +24,16 @@ public class SplashScreen extends AppCompatActivity {
 
     private LottieAnimationView animationWaves;
     private TextView logoText;
+    private int PRESISTANT_ENABLED_FLAG = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
+        if(PRESISTANT_ENABLED_FLAG == 0){
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        PRESISTANT_ENABLED_FLAG = 1;
+        }
         setContentView(R.layout.activity_splash_screen);
 
         animationWaves = findViewById(R.id.splash_waves);
