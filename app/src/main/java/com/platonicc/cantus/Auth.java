@@ -136,6 +136,7 @@ public class Auth extends AppCompatActivity {
     }
 
     private void loginUser() {
+        Toast.makeText(this, "Welcome "+user.getDisplayName(), Toast.LENGTH_SHORT).show();
         startActivity(new Intent(Auth.this, MainActivity.class));
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         finish();
