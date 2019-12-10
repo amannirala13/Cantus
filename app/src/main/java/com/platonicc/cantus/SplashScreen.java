@@ -11,19 +11,29 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieComposition;
 import com.airbnb.lottie.LottieOnCompositionLoadedListener;
+import com.crashlytics.android.Crashlytics;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.material.button.MaterialButton;
+import com.google.firebase.database.FirebaseDatabase;
 
+import io.fabric.sdk.android.Fabric;
 import org.w3c.dom.Text;
 
 public class SplashScreen extends AppCompatActivity {
 
     private LottieAnimationView animationWaves;
     private TextView logoText;
+    private int PRESISTANT_ENABLED_FLAG = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
+        if(PRESISTANT_ENABLED_FLAG == 0){
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        PRESISTANT_ENABLED_FLAG = 1;
+        }
         setContentView(R.layout.activity_splash_screen);
 
         animationWaves = findViewById(R.id.splash_waves);
@@ -51,12 +61,26 @@ public class SplashScreen extends AppCompatActivity {
 
     // Decides which activity to go after the splash screen and navigates to the particular activity
     private void endSplashScreen() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent mainActivityIntent = new Intent(SplashScreen.this, MainActivity.class);
-                startActivity(mainActivityIntent);
-                finish();
-            }},5000);
+        if(!new check().isValidUser()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent mainActivityIntent = new Intent(SplashScreen.this, Auth.class);
+                    startActivity(mainActivityIntent);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    finish();
+                }
+            }, 5000); }
+        else{
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Intent mainActivityIntent = new Intent(SplashScreen.this, MainActivity.class);
+                    startActivity(mainActivityIntent);
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                    finish();
+                }
+            }, 5000);
+        }
     }
 }
