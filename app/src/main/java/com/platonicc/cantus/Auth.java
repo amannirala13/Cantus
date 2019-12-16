@@ -63,10 +63,18 @@ public class Auth extends AppCompatActivity {
         googleSignInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new helper(getApplicationContext()).clickEffect();
                 signIn();
             }
         });
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        new helper(this).releaseAllEffects();
     }
 
     @Override
